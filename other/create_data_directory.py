@@ -21,6 +21,10 @@ def create_directory(HWND=None):
                 for d in dirs:
                     shutil.rmtree(os.path.join(root, d))
 
+    with open(f"{dir_path}/config", "w") as f:
+        from config import base_config
+        print(base_config, file=f)
+
 
 if __name__ == "__main__":
     create_directory(None)

@@ -35,7 +35,7 @@ class Particle(game_object_template.Object):
             self.sprite = sprite
         self.rect = self.sprite.get_rect()
 
-    def update(self, dt) -> None:
+    def update(self, dt, *args) -> None:
         self.x += self.x_vel * dt * 0.5
         self.y += self.y_vel * dt * 0.5
         self.x_vel += self.x_acceleration
@@ -71,7 +71,7 @@ class ParticleGenerator(game_object_template.Object):
         self._generation_timer = 0
         self._particles = []
 
-    def update(self, dt) -> None:
+    def update(self, dt, *args) -> None:
         self._generation_timer += dt
         for particle in self._particles.copy():
             if particle.lifetime < 0:

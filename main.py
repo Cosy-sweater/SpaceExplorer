@@ -4,8 +4,11 @@ from pygame.locals import *
 
 import global_data
 import gui.base
-from visuals.particles import *
+import player.spaceship
+from visuals.particles import ParticleGenerator
 import assets
+from controller import Controller
+from other.read import read_config
 
 pygame.init()
 
@@ -24,18 +27,24 @@ a = ParticleGenerator(vel_x_range=(-300, 300), vel_y_range=(-300, 300), gravity=
                       lifetime_range=(2, 3))
 game_objects.append(a)
 game_objects.append(gui.base.FPS())
+game_objects.append(player.spaceship.Spaceship())
+
+controller = Controller(cfg=read_config())
 
 dt = 0
 while True:
     screen.fill((128, 128, 128))
 
-    for event in pygame.event.get():
+    events = pygame.event.get()
+    for event in events:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
 
+    commands = controller.handle_inputs(events)
+
     for i in game_objects:
-        i.update(dt)
+        i.update(dt, commands)
 
     for i in game_objects:
         i.draw()
